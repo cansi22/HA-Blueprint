@@ -7,9 +7,13 @@ blueprint:
       name: Remote
       description: Tint Remote to use
       selector:
-        entity:
-          integration: mqtt
-          domain: sensor
+        device:
+          integration: zha
+          manufacturer: MLI
+          entity:
+            domain: sensor
+
+          
     light_group_1:
       name: light group 1
       default: {}
@@ -193,9 +197,10 @@ max: 5
 max_exceeded: silent
 trigger:
 - platform: event
-    event_type: zha_event
-    event_data:
-      device_id: !input remote
+  event_type: zha_event
+  event_data:
+    device_id: !input 'remote'
+    
 condition:
 - condition: and
   conditions:
