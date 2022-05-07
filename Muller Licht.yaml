@@ -13,7 +13,7 @@ blueprint:
       selector:
         device:
           integration: zha
-          manufacturer: ML1
+          manufacturer: MLI
           entity:
             domain: sensor
     light:
