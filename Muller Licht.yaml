@@ -1,7 +1,6 @@
 blueprint:
   name: ZHA - Muller Licht Remote Control
-  description: |
-    Control lights with a Philips Muller Licht Remote Control.
+  description: Control lights with a Philips Muller Licht Remote Control.
   domain: automation
   source_url: https://raw.githubusercontent.com/cansi22/HA-Blueprint/main/Muller%20Licht.yaml
 
