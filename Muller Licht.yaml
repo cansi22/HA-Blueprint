@@ -1,5 +1,5 @@
 blueprint:
-  name: ZHA - Muller Licht Remote Control 404010/404011
+  name: ZHA - Muller Licht Remote Control
   description: |
     Control lights with a Philips Muller Licht Remote Control.
   domain: automation
@@ -15,7 +15,7 @@ blueprint:
           integration: zha
           manufacturer: MLI
           entity:
-            domain: sensor
+            domain: remote
     light:
       name: The light(s) to control
       description: >
