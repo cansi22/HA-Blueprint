@@ -28,9 +28,6 @@ blueprint:
 mode: restart
 max_exceeded: silent
 
-variables:
-  light              : !input 'light'
-
 # Trigger the automation when the selected dimmer remote sends an event
 # Also only trigger on cluster_id 64512. This ignores the 'old' events with cluster_id 8.
 trigger:
