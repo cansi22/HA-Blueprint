@@ -35,6 +35,7 @@ trigger:
   event_type: zha_event
   event_data:
     device_id: !input 'remote'
+
 action:
   - choose:
     # Encender Luz "on / off"
