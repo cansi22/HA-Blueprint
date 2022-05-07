@@ -36,14 +36,15 @@ trigger:
     device_id: !input 'remote'
 
 action:
+- variables:
+    command: '{{ trigger.event.data.command }}'
 - choose:
   # Encender Luz "on / off"
   - conditions: '{{ command == ''on'' or command == ''off''}}'
     sequence:
     - service: light.toggle
       target: !input 'light'
-      data:
-        transition: 1
+
   # Subir brillo con pulsación "step" "params.step_mode = 0"
   - conditions: '{{ command == ''step'' and params.step_mode == ''0''}}'
     sequence:
@@ -51,7 +52,7 @@ action:
       target: !input 'light'
       data:
         brightness_step_pct: +10
-        transition: 1
+
   # Bajar brillo con pulsación "step" "params.step_mode = 1"
   - conditions: '{{ command == ''step'' and params.step_mode == ''1''}}'
     sequence:
@@ -59,7 +60,7 @@ action:
       target: !input 'light'
       data:
         brightness_step_pct: -10
-        transition: 1
+
   
 #  # Subir brillo manteniendo "move" -> cuando sueltas "move" "params.move_mode = 0"
 #  - conditions: '{{ command == ''move'' and params.move_mode == ''0''}}'
