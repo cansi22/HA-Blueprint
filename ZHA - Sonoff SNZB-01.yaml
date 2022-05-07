@@ -32,7 +32,7 @@ blueprint:
       default: []
       selector:
         action: {}
-  source_url: https://gist.github.com/seamus65/2be0f8c665ac8c1e011fbd1a0937f9e1
+  source_url: https://raw.githubusercontent.com/cansi22/HA-Blueprint/main/ZHA%20-%20Sonoff%20SNZB-01.yaml
 mode: restart
 max_exceeded: silent
 trigger:
