@@ -61,43 +61,43 @@ action:
         brightness_step_pct: -10
         transition: 1
   
-  # Subir brillo manteniendo "move" -> cuando sueltas "move" "params.move_mode = 0"
-  - conditions: '{{ command == ''move'' and params.move_mode == ''0''}}'
-    sequence:
-    - repeat:
-        count: 10
-        sequence:
-        - service: light.turn_on
-          target: !input 'light'
-          data:
-            brightness_step_pct: 10
-            transition: 1
-        - delay: 1
-  # Bajar brillo manteniendo "move" -> cuando sueltas "move" "params.move_mode = 1"
-  - conditions: '{{ command == ''move'' and params.move_mode == ''1''}}'
-    sequence:
-    - repeat:
-        count: 10
-        sequence:
-        - service: light.turn_on
-          target: !input 'light'
-          data:
-            brightness_step_pct: -10
-            transition: 1
-        - delay: 1
-  # Cambiar temperatura luz "move_to_color_temp" warm white, neutral white and cold white.
-  - conditions: '{{ command == ''move_to_color_temp''}}'
-    sequence:
-    - service: light.turn_on
-      target: !input 'light'
-      data:
-        color_temp: "{{ params.color_temp_mireds }}"
-  # Cambiar color "move_to_color"
-  - conditions: '{{ command == ''move_to_color''}}'
-    sequence:
-    - service: light.turn_on
-      target: !input 'light'
-      data:
-        xy_color: 
-          - "{{ params.color_x}}"
-          - "{{ params.color_y}}"
+#  # Subir brillo manteniendo "move" -> cuando sueltas "move" "params.move_mode = 0"
+#  - conditions: '{{ command == ''move'' and params.move_mode == ''0''}}'
+#    sequence:
+#    - repeat:
+#        count: 10
+#        sequence:
+#        - service: light.turn_on
+#          target: !input 'light'
+#          data:
+#            brightness_step_pct: 10
+#            transition: 1
+#        - delay: 1
+#  # Bajar brillo manteniendo "move" -> cuando sueltas "move" "params.move_mode = 1"
+#  - conditions: '{{ command == ''move'' and params.move_mode == ''1''}}'
+#    sequence:
+#    - repeat:
+#        count: 10
+#        sequence:
+#        - service: light.turn_on
+#          target: !input 'light'
+#          data:
+#            brightness_step_pct: -10
+#            transition: 1
+#        - delay: 1
+#  # Cambiar temperatura luz "move_to_color_temp" warm white, neutral white and cold white.
+#  - conditions: '{{ command == ''move_to_color_temp''}}'
+#    sequence:
+#    - service: light.turn_on
+#      target: !input 'light'
+#      data:
+#        color_temp: "{{ params.color_temp_mireds }}"
+#  # Cambiar color "move_to_color"
+#  - conditions: '{{ command == ''move_to_color''}}'
+#    sequence:
+#    - service: light.turn_on
+#      target: !input 'light'
+#      data:
+#        xy_color: 
+#          - "{{ params.color_x}}"
+#          - "{{ params.color_y}}"
