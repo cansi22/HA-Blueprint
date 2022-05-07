@@ -29,13 +29,12 @@ mode: restart
 max_exceeded: silent
 
 # Trigger the automation when the selected dimmer remote sends an event
-# Also only trigger on cluster_id 64512. This ignores the 'old' events with cluster_id 8.
 trigger:
 - platform: event
   event_type: zha_event
   event_data:
     device_id: !input 'remote'
-
+    
 action:
 - choose:
   # Encender Luz "on / off"
