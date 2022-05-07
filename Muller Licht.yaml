@@ -14,8 +14,9 @@ blueprint:
         device:
           integration: zha
           manufacturer: MLI
-          entity:
-            domain: remote
+          model: ZBT-Remote-ALL-RGBW
+          multiple: false
+
     light:
       name: The light(s) to control
       description: >
