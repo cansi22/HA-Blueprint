@@ -1,0 +1,190 @@
+blueprint:
+  name: Muller Licht Remote
+  description: Control lights with a Muller Licht Tint RGB Remote
+  domain: automation
+  input:
+    remote:
+      name: Remote
+      description: Muller Licht Tint remote to use
+      selector:
+        device:
+          integration: deconz
+          manufacturer: MLI
+          model: ZBT-Remote-ALL-RGBW
+    target_light:
+      name: Light(s)
+      description: The light(s) to control
+      selector:
+        target:
+          entity:
+            domain: light
+    colour_ref:
+      name: Colour Temperature Refence
+      description: The light to use as a colour temp reference
+      selector:
+        entity:
+          domain: light
+    working_scene:
+      name: Working Scene
+      description: The scene to be triggered when the Working Light button is pressed
+      selector:
+        entity:
+          domain: scene
+    sunset_scene:
+      name: Sunset Scene
+      description: The scene to be triggered when the Sunset button is pressed
+      selector:
+        entity:
+          domain: scene
+    party_scene:
+      name: Party Scene
+      description: The scene to be triggered when the Party button is pressed
+      selector:
+        entity:
+          domain: scene
+    night_scene:
+      name: Night Scene
+      description: The scene to be triggered when the Night button is pressed
+      selector:
+        entity:
+          domain: scene
+    campfire_scene:
+      name: Campfire Scene
+      description: The scene to be triggered when the Campfire button is pressed
+      selector:
+        entity:
+          domain: scene
+    romantic_scene:
+      name: Romantic Scene
+      description: The scene to be triggered when the Romantic button is pressed
+      selector:
+        entity:
+          domain: scene
+    force_brightness:
+      name: Force turn on brightness
+      description: 'Force the brightness to the set level below, when the "on" button on the remote is pushed and lights turn on.'
+      default: false
+      selector:
+        boolean: {}
+    brightness:
+      name: Brightness
+      description: Brightness of the light(s) when turning on
+      default: 50
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          mode: slider
+          step: 1.0
+          unit_of_measurement: "%"
+    step_value:
+      name: Brightness increment/decrement percent
+      description: Set the step percent value for brightness and color warmth
+      default: 10
+      selector:
+        number:
+          min: 1.0
+          max: 20.0
+          mode: slider
+          step: 1.0
+          unit_of_measurement: "%"
+mode: restart
+max_exceeded: silent
+variables:
+  force_brightness: !input "force_brightness"
+  step_value: !input "step_value"
+  colour_ref: !input "colour_ref"
+trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      device_id: !input "remote"
+action:
+  - variables:
+      event: "{{ trigger.event.data.event }}"
+  - choose:
+      - conditions:
+          - "{{ event == 1002 }}"
+        sequence:
+          - choose:
+              - conditions: "{{ force_brightness }}"
+                sequence:
+                  - service: light.toggle
+                    target: !input target_light
+                    data:
+                      brightness_pct: !input "brightness"
+            default:
+              - service: light.toggle
+                target: !input target_light
+      - conditions:
+          - "{{ event == 2002 }}"
+        sequence:
+          - service: light.turn_on
+            target: !input target_light
+            data:
+              brightness_step_pct: "{{ step_value }}"
+              transition: 1
+      - conditions:
+          - "{{ event == 3002 }}"
+        sequence:
+          - service: light.turn_on
+            target: !input target_light
+            data:
+              brightness_step_pct: "-{{ step_value }}"
+              transition: 1
+      - conditions:
+          - "{{ event == 4002 }}"
+        sequence:
+          - service: light.turn_on
+            target: !input target_light
+            data:
+              color_temp: "{{state_attr(colour_ref, 'color_temp')|int + 60}}"
+      - conditions:
+          - "{{ event == 5002 }}"
+        sequence:
+          - service: light.turn_on
+            target: !input target_light
+            data:
+              color_temp: "{{state_attr(colour_ref, 'color_temp')|int - 60}}"
+      - conditions:
+          - "{{ event == 6002 }}"
+        sequence:
+          - service: light.turn_on
+            target: !input target_light
+            data:
+              xy_color:
+                - "{{ trigger.event.data.xy.0 }}"
+                - "{{ trigger.event.data.xy.1 }}"
+      - conditions:
+          - "{{ event == 7002 }}"
+        sequence:
+          - service: homeassistant.turn_on
+            entity_id: !input working_scene
+      - conditions:
+          - "{{ event == 8002 }}"
+        sequence:
+          - service: homeassistant.turn_on
+            entity_id: !input sunset_scene
+      - conditions:
+          - "{{ event == 9002 }}"
+        sequence:
+          - service: homeassistant.turn_on
+            entity_id: !input party_scene
+      - conditions:
+          - "{{ event == 10002 }}"
+        sequence:
+          - service: homeassistant.turn_on
+            entity_id: !input night_scene
+      - conditions:
+          - "{{ event == 11002 }}"
+        sequence:
+          - service: homeassistant.turn_on
+            entity_id: !input campfire_scene
+      - conditions:
+          - "{{ event == 12002 }}"
+        sequence:
+          - service: homeassistant.turn_on
+            entity_id: !input romantic_scene
+
+
+
