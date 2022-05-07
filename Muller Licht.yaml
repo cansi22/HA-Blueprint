@@ -38,12 +38,6 @@ trigger:
   event_type: zha_event
   event_data:
     device_id: !input 'remote'
-
-action:
-  - variables:
-      command        : '{{ trigger.event.data.command }}'
-      cur_brightness : '{{ state_attr(light, ''brightness'') | int }}'
-      is_turned_on   : '{{ states(light) == ''on'' }}'
   
   - choose:
     # Encender Luz "on / off"
